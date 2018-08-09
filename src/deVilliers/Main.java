@@ -8,11 +8,14 @@ public class Main {
         String s = h.Hash("Hello");
         System.out.println(s);
 
-        DownloadHasher dh = new DownloadHasher();
-        System.out.println(dh.bufferDownFullHash("https://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html"));
+        //DownloadHasher dh = new DownloadHasher();
+        //System.out.println(dh.bufferDownFullHash("https://docs.oracle.com/javase/7/docs/api/java/lang/Byte.html"));
 
         Timestamp ts = new Timestamp();
-        ts.printallTimes();
+        //ts.printallTimes();
+        //ts.toTime();
+
+        System.out.println(ts.detectShaddy());
 
 
 

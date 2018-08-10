@@ -70,6 +70,12 @@ public class Timestamp {
         return lout;
     }
 
+    /**
+     * detect whether a timestamp or the system which is out of sync
+     * @param lout list of timestamps from UDP servers and the system
+     * @return If any timeserver (or system clock) gave a timestamp a minute before or a minute after the average time then return true else return false
+     * @throws Exception
+     */
     public boolean detectShaddy(ArrayList<Long> lout) throws Exception
     {
         System.out.println("Hello");
@@ -83,7 +89,9 @@ public class Timestamp {
         System.out.println("Average : " + laverage);
         for (int j = 0; j <= lout.size() - 1; j++)
         {
-            if ((lout.get(j)+60000 < laverage) || (lout.get(j)-60000 > laverage)) {
+            long a = lout.get(j)+60000L;
+            long b = a-120000L;
+            if ((b < laverage) && (laverage < a)) {
                 System.out.println(lout.get(j));
                 return true;
             }

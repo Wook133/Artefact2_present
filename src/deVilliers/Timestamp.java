@@ -58,13 +58,38 @@ public class Timestamp {
         long ltime = 0;
         ArrayList<Long> lout = new ArrayList<>();
         for (int i = 0; i <= serverURL.length-1; i++) {
+
                 NTPUDPClient timeClient = new NTPUDPClient();
                 InetAddress inetAddress = InetAddress.getByName(serverURL[i]);
                 TimeInfo timeInfo = timeClient.getTime(inetAddress);
                 NtpV3Packet message = timeInfo.getMessage();
                 long serverTime = message.getTransmitTimeStamp().getTime();
                 lout.add(serverTime);
-            System.out.println(serverURL[i]);
+                System.out.println(serverURL[i]);
+            }
+        lout.add(System.currentTimeMillis());
+        return lout;
+    }
+
+    public ArrayList<Long> getTimesNoThrow()
+    {
+        long ltime = 0;
+        ArrayList<Long> lout = new ArrayList<>();
+        try {
+        for (int i = 0; i <= serverURL.length-1; i++) {
+
+                NTPUDPClient timeClient = new NTPUDPClient();
+                InetAddress inetAddress = InetAddress.getByName(serverURL[i]);
+                TimeInfo timeInfo = timeClient.getTime(inetAddress);
+                NtpV3Packet message = timeInfo.getMessage();
+                long serverTime = message.getTransmitTimeStamp().getTime();
+                lout.add(serverTime);
+                System.out.println(serverURL[i]);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
         lout.add(System.currentTimeMillis());
         return lout;
@@ -123,4 +148,53 @@ public class Timestamp {
         return false;
     }
 
+
+    public static String toStringGetTime()
+    {
+        long time = getTime();
+        return String.valueOf(time);
+    }
+
+    public static long getTime()
+    {
+        long ltime = 0;
+        try {
+            NTPUDPClient timeClient = new NTPUDPClient();
+            InetAddress inetAddress = InetAddress.getByName(serverURL[0]);
+            TimeInfo timeInfo = timeClient.getTime(inetAddress);
+            NtpV3Packet message = timeInfo.getMessage();
+            long serverTime = message.getTransmitTimeStamp().getTime();
+            return serverTime;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public long getAverageTime() throws Exception
+    {
+        long ltime = 0;
+        Long laverage = 0l;
+        ArrayList<Long> lout = new ArrayList<>();
+        lout = getTimes();
+        for (int i = 0; i <= lout.size() - 1; i++)
+        {
+            laverage = laverage + lout.get(i);
+        }
+        laverage = laverage/lout.size();
+        return laverage;
+    }
+    public long getAverageTime(ArrayList<Long> lout)
+    {
+        long ltime = 0;
+        Long laverage = 0l;
+        for (int i = 0; i <= lout.size() - 1; i++)
+        {
+            laverage = laverage + lout.get(i);
+        }
+        laverage = laverage/lout.size();
+        return laverage;
+    }
 }

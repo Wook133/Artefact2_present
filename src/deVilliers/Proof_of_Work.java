@@ -16,6 +16,18 @@ public class Proof_of_Work {
         this.nonce = nonce;
     }
 
+    public void setNonce(long nonce) {
+        this.nonce = nonce;
+    }
+
+    public Proof_of_Work(String sContent, String sPat)
+    {
+        this.sContent = sContent;
+        this.sPattern = sPat;
+        this.sHashtoUse = "SHA3-256";
+        this.nonce = 0;
+    }
+
     public Proof_of_Work(String sContent, String sPattern, long nonce) {
         this.sContent = sContent;
         this.sPattern = sPattern;
@@ -39,6 +51,24 @@ public class Proof_of_Work {
         }
         return false;
     }
+
+    public String hashMe()
+    {
+        try {
+            String sAttempt = "";
+            Hasher gHash = new Hasher();
+            sAttempt = gHash.Hash(sContent+nonce, sHashtoUse);
+            System.out.println(sAttempt);
+            return(sAttempt);
+        }
+
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     /**
      *

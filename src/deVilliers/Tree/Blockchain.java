@@ -1,9 +1,9 @@
 package deVilliers.Tree;
 
 
-import nmu.devilliers.ProofOfWork;
-import nmu.devilliers.Source;
-import nmu.devilliers.TimerServer;
+import deVilliers.Proof_of_Work;
+import deVilliers.Source;
+import deVilliers.Timestamp;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -97,7 +97,7 @@ public class Blockchain extends LinkedMultiTreeNode<Block>
             {
                 String sMerkleRoot = this.data.generateMerkleRoot(this.data.getListSourceLeaves());
                 if (sMerkleRoot.compareTo(this.data.getMerkleRoot()) == 0) {
-                    ProofOfWork pow = new ProofOfWork(this.data.toPoWinputString(), this.data.makePattern());
+                    Proof_of_Work pow = new Proof_of_Work(this.data.toPoWinputString(), this.data.makePattern());
                     String sBlockHash = pow.powString(this.data.getNonce(), 0);
                     if (sBlockHash == this.data.getBlockHash())
                     {
@@ -110,7 +110,7 @@ public class Blockchain extends LinkedMultiTreeNode<Block>
         {
             String sMerkleRoot = this.data.generateMerkleRoot(this.data.getListSourceLeaves());
             if (sMerkleRoot.compareTo(this.data.getMerkleRoot()) == 0) {
-                ProofOfWork pow = new ProofOfWork(this.data.toPoWinputString(), this.data.makePattern());
+                Proof_of_Work pow = new Proof_of_Work(this.data.toPoWinputString(), this.data.makePattern());
                 String sBlockHash = pow.powString(this.data.getNonce(), 0);
                 if (sBlockHash == this.data.getBlockHash())
                 {
@@ -207,7 +207,7 @@ public class Blockchain extends LinkedMultiTreeNode<Block>
 
     private static long getTimeNow()
     {
-        TimerServer ts = new TimerServer();
+        Timestamp ts = new Timestamp();
         return ts.getTime();
     }
 

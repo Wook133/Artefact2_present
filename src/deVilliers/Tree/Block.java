@@ -1,7 +1,6 @@
 package deVilliers.Tree;
 
-import nmu.devilliers.*;
-
+import deVilliers.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ public class Block  {
             System.out.println(s.toString());
             this.listSourceLeaves.add(s);
         }
-        TimerServer ts = new TimerServer();
+        Timestamp ts = new Timestamp();
         timestamp = ts.getTime();
         this.idifficulty = dif;
         this.blockHash = null;
@@ -71,7 +70,7 @@ public class Block  {
         String spattern = "";
         spattern = makePattern();
         makeBlocksize();
-        ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
+        Proof_of_Work pow = new Proof_of_Work(toPoWinputString(), spattern);
         nonce = pow.pow(0);//decide on which PoW algorithm to use
         //blockHash = pow.hashMe();
         blockHash = pow.powString(nonce, 0);
@@ -84,8 +83,9 @@ public class Block  {
         String spattern = "";
         spattern = makePattern();
         makeBlocksize();
-        ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
+        Proof_of_Work pow = new Proof_of_Work(toPoWinputString(), spattern);
         nonce = pow.pow(0);//decide on which PoW algorithm to use
+        pow.setNonce(nonce);
         blockHash = pow.hashMe();
     }
 
@@ -188,36 +188,34 @@ public class Block  {
         ArrayList<String> listSourceHashes = new ArrayList<>();
         for (Source scur : listSourceLeaves) {
             try {
-                GeneralHASH gh = new GeneralHASH();
-                String sHash = gh.HashnoPrint(scur.toString(), "SHA3-256");
+                Hasher gh = new Hasher();
+                String sHash = gh.Hash(scur.toString(), "SHA3-256");
                 listSourceHashes.add(scur.toString());
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
         }
 
-        MerkleTree mt = new MerkleTree();
+        HashChain mt = new HashChain(listSourceHashes);
         mt.populateListHashes(listSourceHashes);
-        mt.buildTree("SHA3-256");
-        merkleRoot = mt.getMerkleRoot();
+        merkleRoot = mt.HashChain("SHA3-256");
     }
     public String generateMerkleRoot(ArrayList<Source> LSL)
     {
         ArrayList<String> listSourceHashes = new ArrayList<>();
         for (Source scur : LSL) {
             try {
-                GeneralHASH gh = new GeneralHASH();
-                String sHash = gh.HashnoPrint(scur.toString(), "SHA3-256");
+                Hasher gh = new Hasher();
+                String sHash = gh.Hash(scur.toString(), "SHA3-256");
                 listSourceHashes.add(scur.toString());
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
         }
 
-        MerkleTree mt = new MerkleTree();
+        HashChain mt = new HashChain(listSourceHashes);
         mt.populateListHashes(listSourceHashes);
-        mt.buildTree("SHA3-256");
-        return mt.getMerkleRoot();
+        return mt.HashChain("SHA3-256");
     }
 
 
@@ -250,7 +248,7 @@ public class Block  {
         String spattern = "";
         spattern = makePattern();
         makeBlocksize();
-        ProofOfWork pow = new ProofOfWork(toPoWinputString(), spattern);
+        Proof_of_Work pow = new Proof_of_Work(toPoWinputString(), spattern);
         a.setNonce(nonce = pow.pow(n, 0));//decide on which PoW algorithm to use
         a.blockHash = pow.hashMe();
 

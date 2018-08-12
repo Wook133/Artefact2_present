@@ -60,10 +60,22 @@ public class Demo {
 
     public static void doSource()
     {
-        //https://en.wikipedia.org/wiki/Canadian_electoral_system#/media/File:St_Edward%27s_Crown_with_maple_leaves.svg
-        System.out.println("Please enter a Source url ending in a file extension:");
-        Scanner scanner = new Scanner(System.in);
-        String sURL = scanner.nextLine();
+        String sURL = "";
+        Boolean wellFormed = false;
+        while (wellFormed == false) {
+            //https://en.wikipedia.org/wiki/Canadian_electoral_system#/media/File:St_Edward%27s_Crown_with_maple_leaves.svg
+            System.out.println("Please enter a Source url ending in a file extension:");
+            Scanner scanner = new Scanner(System.in);
+            sURL = scanner.nextLine();
+            if (sURL.contains("http") && (sURL.contains(".") && (sURL.contains(":"))))
+            {
+                wellFormed = true;
+            }
+            else
+            {
+                System.out.println("Please enter a valid URL");
+            }
+        }
         deVillCargo dvc = new deVillCargo(sURL, "000000000000000000000");
         System.out.println("Source 1 : " + dvc.toStringForTransactionData());
 
@@ -76,9 +88,22 @@ public class Demo {
     public static void doAppendSourceAndExport()
     {
         try {
-            System.out.println("Please enter a Source url ending in a file extension:");
-            Scanner scanner = new Scanner(System.in);
-            String sURL = scanner.nextLine();
+            String sURL = "";
+            Boolean wellFormed = false;
+            while (wellFormed == false) {
+                //https://en.wikipedia.org/wiki/Canadian_electoral_system#/media/File:St_Edward%27s_Crown_with_maple_leaves.svg
+                System.out.println("Please enter a Source url ending in a file extension:");
+                Scanner scanner = new Scanner(System.in);
+                sURL = scanner.nextLine();
+                if (sURL.contains("http") && (sURL.contains(".") && (sURL.contains(":"))))
+                {
+                    wellFormed = true;
+                }
+                else
+                {
+                    System.out.println("Please enter a valid URL");
+                }
+            }
             deVillCargo dvc = new deVillCargo(sURL, "000000000000000000000");
 
             String sFile = "Leaves.xml";

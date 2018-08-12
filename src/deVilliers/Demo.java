@@ -1,3 +1,5 @@
+package deVilliers;
+
 import deVilliers.ConsoleMenu.Menu;
 import deVilliers.Timestamp;
 import deVilliers.deVillCargo;
@@ -59,7 +61,7 @@ public class Demo {
         deVillCargo dvc2 = new deVillCargo("https://en.wikipedia.org/wiki/Canadian_electoral_system#/media/File:St_Edward%27s_Crown_with_maple_leaves.svg", "000000000000000000000");
         System.out.println("Source 2 : " + dvc2.toStringForTransactionData());
         System.out.println("Same hash value for file: " + dvc.equalsTo(dvc2));
-
+        System.out.println("");
     }
 
 

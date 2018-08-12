@@ -1,7 +1,6 @@
 package deVilliers;
 
 import javafx.util.Pair;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -102,6 +101,46 @@ public class DownloadHasher {
             System.out.println(exc);
         }
         return sout;
+    }
+
+    /** Create directory to save? FileUtils.moveFileToDirectory
+     * Download the file, save it, get the hash, if not permenantly storing file, delete it
+     * @param sInputLocation URL of item
+     * @return Hash : Name : Size
+     */
+    public static Pair<String, Pair<String, String>> bufferDownFullHashTuple(String sInputLocation)
+    {
+        String sTrimmed = sInputLocation.replace(" ", "");
+        Pair<String, Pair<String, String>> tuple;
+        ArrayList<Pair<String,String>> meta = new ArrayList<>();
+        String sout = "";
+        String sFile = "";
+        try {
+            URL website = new URL(sTrimmed);
+            sFile = getFileName(website);
+            ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+            FileOutputStream fos = new FileOutputStream(sFile);
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        }
+        catch (Exception except)
+        {
+            System.out.println(except);
+        }
+        try
+        {
+            Hasher Hash = new Hasher();
+            sout = Hash.naiveBufferedFileReaderHash(sFile, "SHA3-256", 8192);
+            Long size = getFileSize(sFile);
+            File donewith = new File(sFile);
+            FileUtils.deleteQuietly(donewith);
+            tuple = new Pair<String, Pair<String, String>>(sout, new Pair<String, String>(sFile, Long.toString(size)));
+            return tuple;
+        }
+        catch (Exception exc)
+        {
+            System.out.println(exc);
+        }
+        return new Pair<String, Pair<String, String>>(sout, new Pair<String, String>(sFile, Long.toString(0l)));
     }
 
 

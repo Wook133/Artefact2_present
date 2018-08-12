@@ -1,5 +1,7 @@
 package deVilliers.XML;
 
+import deVilliers.Hasher;
+
 import java.util.Objects;
 
 public class Account {
@@ -19,8 +21,8 @@ public class Account {
     public Account(String privateKey) {
         this.privateKey = privateKey;
         try {
-            GeneralHASH gh = new GeneralHASH();
-            publicAddress = gh.HashnoPrint(privateKey, "SHA3-512");
+            Hasher gh = new Hasher();
+            publicAddress = gh.Hash(privateKey, "SHA3-512");
         }
         catch (Exception e)
         {
@@ -37,8 +39,8 @@ public class Account {
     public boolean verifyPrivateKey(String pk)
     {
         try {
-            GeneralHASH gh = new GeneralHASH();
-            String sHash = gh.HashnoPrint(pk, "SHA3-512");
+            Hasher gh = new Hasher();
+            String sHash = gh.Hash(pk, "SHA3-512");
             if (sHash.compareTo(this.publicAddress) == 0)
                 return true;
             else
